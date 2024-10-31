@@ -16,8 +16,8 @@ if %errorLevel% == 0 (
 
 set relativePath=%~dp0
 
-echo "%relativePath%scripts\uninstall.ps1"
+echo "%relativePath%Scripts\~RunManually.ps1"
 
-pwsh -NoProfile -ExecutionPolicy Bypass -File "%relativePath%scripts\uninstall.ps1"
+pwsh -NoProfile -ExecutionPolicy Bypass -File "%relativePath%Scripts\~RunManually.ps1"
 
 exit
