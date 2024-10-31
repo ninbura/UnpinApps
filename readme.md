@@ -26,7 +26,7 @@ Note that if you remove or move cloned directory after installation you'll need 
 4. Populate `Config.json` contents, as exampled below ([configuration Example](#configuration-example)).
 5. Right click and run `~Install.bat`, `~RunManually.bat`, or `~Uninstall.bat` as admin.
 
-### `.bat` files
+### `.bat` Files
 - `~Install.bat` - Creates a scheduled task to unpin apps at logon.
 - `~RunManually.bat` - Manually runs the `UnpinApps.ps1` script.
 - `~Uninstall.bat` - Removes the UnpinApps logon task if it exists.
