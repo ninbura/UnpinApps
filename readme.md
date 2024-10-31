@@ -44,7 +44,7 @@ Note that if you remove or move the folder containing these files you'll need to
 4. Populate Config.json contents, as exampled above.
 5. Right click and run `~Install.bat`, `~RunManually.bat`, or `~Uninstall.bat` as admin.
 
-## `.bat` files
+### `.bat` files
 - `~Install.bat` - Creates a scheduled task to unpin apps at logon.
 - `~RunManually.bat` - Manually runs the `UnpinApps.ps1` script.
 - `~Uninstall.bat` - Removes the UnpinApps logon task if it exists.
