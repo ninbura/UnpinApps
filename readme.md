@@ -1,6 +1,6 @@
 # UnpinApps
 
-A small utility that automatically unpins apps on your taskbar at login.
+A light-weight utility that automatically unpins apps on your taskbar at login.
 
 # prerequisites
 
