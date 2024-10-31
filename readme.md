@@ -6,7 +6,7 @@ A light-weight utility that automatically unpins apps on your taskbar at login.
 
 - Install PowerShell 7
   - `winget install Microsoft.PowerShell`
-- Enable running PowerShell scripts on your PC (must be _admin elevated_)
+- Enable running PowerShell scripts on your PC (must be **admin elevated**)
   - `Set-ExecutionPolicy RemoteSigned`
 
 # configuration example
