@@ -23,7 +23,7 @@ Note that if you remove or move cloned directory after installation you'll need 
     - ```PowerShell
       New-Item -Path Config.json -Type File 
       ```
-4. Populate Config.json contents, as exampled below ([configuration Example](#configuration-example)).
+4. Populate `Config.json` contents, as exampled below ([configuration Example](#configuration-example)).
 5. Right click and run `~Install.bat`, `~RunManually.bat`, or `~Uninstall.bat` as admin.
 
 ### `.bat` files
