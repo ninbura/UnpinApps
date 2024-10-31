@@ -27,10 +27,6 @@ For the script to run at login, you must place a properly formatted `Config.json
 }
 ```
 
-### description of options
-
-- UnpinApps - an array of the apps you'd like to be unpinned from your taskbar.
-
 # usage
 - After creating your desired configuration, simply right click and run `~Install.bat`, `~RunManually.bat`, or `~Uninstall.bat` as admin.
 - *Note that if you remove or move the folder containing these files you'll need to run `~Uninstall.bat` and then `~Install.bat` again.*
