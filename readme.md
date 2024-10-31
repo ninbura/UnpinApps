@@ -10,7 +10,7 @@ A light-weight utility that automatically unpins apps on your taskbar at login.
   - `Set-ExecutionPolicy RemoteSigned`
 
 # Usage
-Note that if you remove or move the folder containing these files you'll need to run `~Uninstall.bat` and then `~Install.bat` again.
+Note that if you remove or move cloned directory after installation you'll need to run `~Install.bat` again.
 1. Clone this reposiotry.
   - ```PowerShell
     git clone https://github.com/ninbura/UnpinApps.git
