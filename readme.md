@@ -12,17 +12,17 @@ A light-weight utility that automatically unpins apps on your taskbar at login.
 # Usage
 Note that if you remove or move cloned directory after installation you'll need to run `~Install.bat` again.
 1. Clone this reposiotry.
-  - ```PowerShell
-    git clone https://github.com/ninbura/UnpinApps.git
-    ```
+    - ```PowerShell
+      git clone https://github.com/ninbura/UnpinApps.git
+      ```
 2. Enter the cloned directory.
-  - ```PowerShell
-    cd UnpinApps
-    ```
+    - ```PowerShell
+      cd UnpinApps
+      ```
 3. Create a `Config.json` file.
-  - ```PowerShell
-    New-Item -Path Config.json -Type File 
-    ```
+    - ```PowerShell
+      New-Item -Path Config.json -Type File 
+      ```
 4. Populate Config.json contents, as exampled below ([configuration Example](#configuration-example)).
 5. Right click and run `~Install.bat`, `~RunManually.bat`, or `~Uninstall.bat` as admin.
 
