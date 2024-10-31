@@ -31,6 +31,9 @@ Note that if you remove or move cloned directory after installation you'll need 
 - `~RunManually.bat` - Manually runs the `UnpinApps.ps1` script.
 - `~Uninstall.bat` - Removes the UnpinApps logon task if it exists.
 
+# Logging
+Every time the `UnpinApps.ps1` executes, details of your configuration, as well as the overall process are stored in the `UnpinApps.log` file at the root of the cloned directory. This can assist with troublshooting if results aren't as expected.
+
 # Configuration Example
 
 For the script to run at login, you must place a properly formatted `Config.json` file in root of this repository/directory. Below is an example of what `Config.json` should contain.
