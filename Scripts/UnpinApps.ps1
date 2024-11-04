@@ -136,7 +136,7 @@ function Main() {
     WaitForExplorer
     RefreshTaskbar
     UnpinUnwantedAppsFromTaskbar $config.UnpinApps
-    RestartListener -Skip $SkipListenerRestart
+    RestartListener
     ShutDown
 }
 
