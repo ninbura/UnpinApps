@@ -1,37 +1,38 @@
 param(
     [ValidateRange(1, 300)]
-    [int]$SecondsDelay = 0,
-    [string]$LogPath = "$PSScriptRoot/../UpinApps.log"
+    [int]$SecondsDelay = 3,
+    [switch]$SkipExplorerRestart,
+    [switch]$SkipListenerRestart
 )
 
-function CreateLogFile() {
-    if (!(test-path $LogPath)) {
-        $log = New-Item -Path $LogPath -ItemType File -Force
-        $absoluteLogPath = $log.FullName
+Import-Module "$PSScriptRoot/SharedFunctions.psm1" -Force
 
-        Write-Host "Log file created at: `n$absoluteLogPath" -ForegroundColor Blue
+$User32Definition = @"
+using System;
+using System.Runtime.InteropServices;
+public class User32 {
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+}
+"@
 
-        return $false
+Add-Type -TypeDefinition $User32Definition
+
+function RefreshTaskbar() {
+    $HWND_BROADCAST = [IntPtr]0xffff
+    $WM_SETTINGCHANGE = 0x1A
+
+    try {
+        WriteToLog "Attempting to refresh the taskbar..."
+
+        [User32]::SendMessage($HWND_BROADCAST, $WM_SETTINGCHANGE, [IntPtr]0, [IntPtr]0) | Out-Null
+    } catch {
+        WriteToLog "Failed to refresh the taskbar." -ForegroundColor Red
+
+        return
     }
 
-    return $true
-}
-
-function WriteToLog {
-    param (
-        [string]$Message,
-        [string]$ForegroundColor = "Gray",
-        [switch]$NoNewLine
-    )
-
-    Write-Host $Message -ForegroundColor $ForegroundColor -NoNewLine:$NoNewLine
-
-    CreateLogFile | Out-Null
-
-    $date = Get-Date -Format "yyyy/MM/dd HH:mm:ss"
-    $logEntry = "[$date] - $Message"
-
-    Add-Content -Path $LogPath -Value $logEntry | Out-Null
+    WriteToLog "Taskbar refreshed." -ForegroundColor Green
 }
 
 function PrintConfig($Config) {
@@ -46,22 +47,10 @@ function PrintConfig($Config) {
 }
 
 function StartUp($Config) {
-    Write-Host "UnpinApps Started." -ForegroundColor Cyan
-    $logFileAlreadyExisted = CreateLogFile
-
-    if ($logFileAlreadyExisted) {
-        Add-Content -Path $LogPath -Value "`n`n" | Out-Null
-    }
+    WriteToLog "-----------------------------------------------------------------------------"
+    WriteToLog "UnpinApps Started." -ForegroundColor Cyan
     
     PrintConfig $Config
-}
-
-function WaitForExplorerInitialization() {
-    WriteToLog "Waiting for explorer.exe to initialize..." -ForegroundColor Cyan
-    while (-not (Get-Process -Name "explorer" -ErrorAction SilentlyContinue)) {
-        Start-Sleep -Seconds 1
-    }
-    WriteToLog "explorer.exe is now running." -ForegroundColor Green
 }
 
 function DelayProgression() {
@@ -72,6 +61,30 @@ function DelayProgression() {
     WriteToLog "Delaying execution for $SecondsDelay seconds..." -ForegroundColor Cyan
 
     Start-Sleep -Seconds $SecondsDelay 
+}
+
+function WaitForExplorer() {
+    WriteToLog "Waiting for Explorer to start..."
+
+    $attempts = 0
+    $maxAttempts = 300
+
+    while ($attempts -lt $maxAttempts) {
+        $explorerProcess = Get-Process -Name "explorer" -ErrorAction SilentlyContinue
+
+        if ($explorerProcess) {
+            WriteToLog "Explorer is now running." -ForegroundColor Green
+
+            DelayProgression
+
+            return
+        }
+
+        Start-Sleep -Seconds 1
+        $attempts++
+    }
+
+    WriteToLog "Timed out waiting for Explorer to start." -ForegroundColor Red
 }
 
 function UnpinUnwantedAppsFromTaskbar($UnpinApps) {
@@ -98,13 +111,33 @@ function UnpinUnwantedAppsFromTaskbar($UnpinApps) {
     }
 }
 
+function RestartListener() {
+    if ($SkipListenerRestart) {
+        return
+    }
+
+    WriteToLog "Restarting listener..."
+
+    $taskName = GetListenTaskName
+    StopScheduledTask $taskName
+    Start-ScheduledTask -TaskName $taskName
+
+    WriteToLog "`"$taskName`" restarted." -ForegroundColor Green
+}
+
+function ShutDown() {
+    WriteToLog "UnpinApps completed." -ForegroundColor Green
+    WriteToLog "-----------------------------------------------------------------------------"
+}
+
 function Main() {
     $config = Get-Content -Path "$PSScriptRoot/../Config.json" -Raw | ConvertFrom-Json
     Startup $config
-    WaitForExplorerInitialization
-    DelayProgression
+    WaitForExplorer
+    RefreshTaskbar
     UnpinUnwantedAppsFromTaskbar $config.UnpinApps
-    WriteToLog "Unpinning process complete.`n" -ForegroundColor Green
+    RestartListener -Skip $SkipListenerRestart
+    ShutDown
 }
 
 Main
