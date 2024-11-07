@@ -7,7 +7,7 @@ Import-Module "$PSScriptRoot/SharedFunctions.psm1" -Force
 function Main() {
     $lastStartTime = Get-Date
 
-    WriteToLog "Listening for explorer.exe restart event..."
+    WriteToLog "Listening for Explorer restart event..."
 
     while ($true) {
         $explorerProcess = Get-Process -Name 'explorer' -ErrorAction SilentlyContinue | Select-Object -First 1
@@ -21,7 +21,7 @@ function Main() {
                 & (SharedFunctions\GetUnpinScriptPath) -SecondsDelay $SecondsDelay -SkipExplorerRestart -SkipListenerRestart 
             }
         } else {
-            WriteToLog "Explorer.exe not found; retrying..."
+            WriteToLog "Explorer not found; retrying..."
         }
 
         Start-Sleep -Seconds $SecondsDelay
