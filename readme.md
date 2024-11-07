@@ -27,7 +27,7 @@ Note that if you remove or move cloned directory after installation you'll need 
 5. Right click and run `~Install.bat`, `~RunManually.bat`, or `~Uninstall.bat` as admin.
 
 ### Batch Scripts
-- `~Install.bat` - Creates a scheduled tasks to unpin apps at logon and after Explorer restarts.
+- `~Install.bat` - Creates a scheduled tasks to unpin apps at login and after Explorer restarts.
 - `~RunManually.bat` - Manually runs the `UnpinApps.ps1` script.
 - `~Uninstall.bat` - Removes the UnpinApps logon task if it exists.
 
