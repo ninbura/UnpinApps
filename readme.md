@@ -45,7 +45,8 @@ For the script to run at login, you must place a properly formatted `Config.json
     "Excel",
     "Google Chrome",
     "Microsoft Edge",
-    "Outlook",
+    "Outlook (classic)",
+    "Outlook (new)",
     "Quick Assist",
     "Word"
   ]
